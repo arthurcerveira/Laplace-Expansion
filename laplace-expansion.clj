@@ -11,13 +11,11 @@
   (- (* a d) (* b c)))
 
 (defn get-minor-matrix [matrix, index]
-  ; Remove the top row
-  (def minor-matrix (into (vector) (remove #(= (get matrix 0) %) matrix)))
-
-  ; Remove the column determined by the index
+  ; Remove the top row and the column determined by the index
   (def minor-matrix
     (mapv (fn [row]
-            (remove #(= (get row index) %) row)) minor-matrix))
+            (remove #(= (get row index) %) row))
+          (into (vector) (remove #(= (get matrix 0) %) matrix))))
 
   ; Turns seq into vector
   (mapv (fn [row] (into [] row)) minor-matrix))
@@ -46,7 +44,9 @@
        (def sign (exp -1 index))
        (def cofactor (* sign minor))
 
-       (def index (+ index 1))
        (+ cofactor result)) 0 mapped-array)))
 
-(println (laplace-expansion matrix))
+(defn main []
+  (println (laplace-expansion matrix)))
+
+(main)
